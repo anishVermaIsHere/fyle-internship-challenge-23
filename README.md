@@ -14,6 +14,15 @@
 
 **Screenshots**
 
+![001](https://github.com/anishVermaIsHere/fyle-internship-challenge-23/assets/97972189/81a5e92d-4dcc-4821-9b54-c35e14a5f1a0)
+
+**Assignment Document**
+
+[Assignment Doc.pdf](https://github.com/anishVermaIsHere/fyle-internship-challenge-23/files/13539163/Assignment.Doc.pdf)
+
+
+
+
 
 
 
