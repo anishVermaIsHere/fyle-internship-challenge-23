@@ -1,4 +1,26 @@
-# Fyle Frontend Challenge
+# Fyle - Internshala Frontend Assignment built with using Angular 16, GitHub REST API and Tailwind
+
+**To run application follow these steps**
+
+1. Download this code as zip or open terminal and run this command **`git clone https://github.com/anishVermaIsHere/fyle-internship-challenge-23.git`**.
+
+2. Open VSCode Terminal within this project folder and run the command **`npm i`** or **`npm install`**.
+
+3. After the installation of all dependencies and environment setup, run command **`npm start`** or **`ng serve`** in terminal.
+
+4. Now your app will run successfully.
+
+
+
+**Screenshots**
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+**Additional Information**
 
 ## Who is this for?
 

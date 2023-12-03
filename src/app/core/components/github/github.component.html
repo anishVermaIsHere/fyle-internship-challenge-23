@@ -1,0 +1,197 @@
+
+
+<!-- Error section START -->
+<div *ngIf="!isLoading&&error.message" class="w-full">
+    <div class="flex flex-col items-center justify-center h-screen p-3">
+        <h3 class="text-3xl text-red-500 mb-4">{{error.statusCode}}</h3>
+        <p class="text-lg text-red-400">{{error.message}}</p>
+    </div>
+</div>
+<!-- Error section END -->
+
+
+<!-- skeletons START -->
+<div *ngIf="isLoading&&!error.message">
+    <app-usercard-skeleton
+    *ngIf="isLoading"
+    ></app-usercard-skeleton>
+    
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-8 mt-5" >
+        <app-repocard-skeleton
+        *ngFor="let skeleton of skeletons"
+        ></app-repocard-skeleton>
+    </section>
+</div>
+<!-- skeletons END -->
+
+
+<!-- main section START -->
+
+<div *ngIf="!isLoading&&!error.message">
+    <!-- main data section START -->
+    <section class="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-4 items-center gap-4">
+        <div class="col-span-1 md:col-span-1 lg:col-span-1 flex items-center justify-center p-4">
+            <div class="xl:h-[240px] lg:w-[240px] rounded-full bg-gray-200 overflow-hidden">
+                <img 
+                [alt]="'profile image' +user.name" 
+                [src]="user.avatar_url"
+                class="object-scale-down h-auto">
+            </div>
+        </div>
+        <div class="col-span-2 md:col-span-2 lg:col-span-3 py-1 md:py-4">
+            <div class="flex flex-col md:justify-between">
+                <div class="py-1 px-2 md:mb-2">
+                    <h4 class="text-xl md:text-3xl">{{user.name}}</h4>
+                </div>
+                <div class="px-2 mb-3">
+                    <p class="text-gray-600 text-md md:text-lg">{{user.bio}}</p>
+                </div>
+                <div class="px-2 mb-3">
+                    <button *ngIf="!isFollow" (click)="followToggle()" aria-label="follow button" class="bg-gray-100 rounded w-full sm:w-1/2 lg:w-1/4 border border-gray-300 px-4 py-1">
+                        Follow
+                    </button>
+                    <button *ngIf="isFollow" (click)="followToggle()"  aria-label="unfollow button" class="bg-gray-200 font-semibold rounded w-full sm:w-1/2 lg:w-1/4 border border-gray-300 px-4 py-1">
+                        Followed
+                    </button>
+                </div>
+                <div class="flex text-gray-600 px-2 mb-3">
+                    <div class="flex mr-4 text-sm md:text-base hover:text-blue-400">
+                        <span class="flex mr-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentcolor">
+                                <path d="M16.604 11.048a5.67 5.67 0 0 0 .751-3.44c-.179-1.784-1.175-3.361-2.803-4.44l-1.105 1.666c1.119.742 1.8 1.799 1.918 2.974a3.693 3.693 0 0 1-1.072 2.986l-1.192 1.192 1.618.475C18.951 13.701 19 17.957 19 18h2c0-1.789-.956-5.285-4.396-6.952z"></path><path d="M9.5 12c2.206 0 4-1.794 4-4s-1.794-4-4-4-4 1.794-4 4 1.794 4 4 4zm0-6c1.103 0 2 .897 2 2s-.897 2-2 2-2-.897-2-2 .897-2 2-2zm1.5 7H8c-3.309 0-6 2.691-6 6v1h2v-1c0-2.206 1.794-4 4-4h3c2.206 0 4 1.794 4 4v1h2v-1c0-3.309-2.691-6-6-6z">
+                                </path>
+                            </svg>
+                            {{user.followers}}
+                        </span>
+                        <span href="#" 
+                        class="flex flex-wrap cursor-pointer">
+                            followers
+                        </span>
+                    </div>
+
+                    <div class="flex text-sm md:text-base hover:text-blue-400">
+                        <span class="flex mr-2">
+                            {{user.following}}
+                        </span>
+                        <span href="#" 
+                        class="flex flex-wrap  cursor-pointer">
+                            following
+                        </span>
+                    </div>
+                  
+                </div>
+                <div *ngIf="user.location" class="flex px-2 mb-3 hidden md:block">
+                    <p class="flex">
+                        <span class="mr-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);">
+                                <path d="M12 22s8.029-5.56 8-12c0-4.411-3.589-8-8-8S4 5.589 4 9.995C3.971 16.44 11.696 21.784 12 22zM8 9h3V6h2v3h3v2h-3v3h-2v-3H8V9z">
+                                </path>
+                            </svg>
+                        </span>
+                        <span class="text-md">{{user.location}}</span>
+                    </p>
+                </div>
+
+                <div class="px-2 hidden md:block">
+                    
+                    <p class="flex" *ngIf="user.twitter_username">
+                        <span class="mr-2">
+                            <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 50 50" width="24" height="24">
+                                <path d="M 5.9199219 6 L 20.582031 27.375 L 6.2304688 44 L 9.4101562 44 L 21.986328 29.421875 L 31.986328 44 L 44 44 L 28.681641 21.669922 L 42.199219 6 L 39.029297 6 L 27.275391 19.617188 L 17.933594 6 L 5.9199219 6 z M 9.7167969 8 L 16.880859 8 L 40.203125 42 L 33.039062 42 L 9.7167969 8 z"/>
+                            </svg>
+                        </span>
+                        <a href="#" 
+                        class="flex flex-wrap hover:text-blue-400 cursor-pointer">
+                            https://twitter.com/{{user.twitter_username}}
+                        </a>
+                    </p>
+                </div>
+            </div>
+
+            
+        </div>
+        <div class="col-span-4">
+                <div class="flex mb-1 block md:hidden">
+                    <span class="mr-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M12 22s8.029-5.56 8-12c0-4.411-3.589-8-8-8S4 5.589 4 9.995C3.971 16.44 11.696 21.784 12 22zM8 9h3V6h2v3h3v2h-3v3h-2v-3H8V9z"></path></svg>                       
+                    </span>
+                    <p class="text-md">{{user.location}}</p>
+                </div>
+
+                <div class="mb-1 block md:hidden">
+                    <p class="flex">
+                        <span class="mr-2">
+                            <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 50 50" width="24" height="24">
+                                <path d="M 5.9199219 6 L 20.582031 27.375 L 6.2304688 44 L 9.4101562 44 L 21.986328 29.421875 L 31.986328 44 L 44 44 L 28.681641 21.669922 L 42.199219 6 L 39.029297 6 L 27.275391 19.617188 L 17.933594 6 L 5.9199219 6 z M 9.7167969 8 L 16.880859 8 L 40.203125 42 L 33.039062 42 L 9.7167969 8 z"/>
+                            </svg>
+                        </span>
+                        
+                        <a href="#" 
+                        class="hover:text-blue-400 cursor-pointer">
+                            https://twitter.com/{{user.twitter_username}}
+                        </a>
+                    </p>
+                </div>
+                <div class="flex md:items-center flex-col md:flex-row justify-between">
+                    <div class="flex">
+                        <span class="mr-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M4.222 19.778a4.983 4.983 0 0 0 3.535 1.462 4.986 4.986 0 0 0 3.536-1.462l2.828-2.829-1.414-1.414-2.828 2.829a3.007 3.007 0 0 1-4.243 0 3.005 3.005 0 0 1 0-4.243l2.829-2.828-1.414-1.414-2.829 2.828a5.006 5.006 0 0 0 0 7.071zm15.556-8.485a5.008 5.008 0 0 0 0-7.071 5.006 5.006 0 0 0-7.071 0L9.879 7.051l1.414 1.414 2.828-2.829a3.007 3.007 0 0 1 4.243 0 3.005 3.005 0 0 1 0 4.243l-2.829 2.828 1.414 1.414 2.829-2.828z"></path><path d="m8.464 16.95-1.415-1.414 8.487-8.486 1.414 1.415z"></path></svg>
+                        </span>
+                        <a href="#" 
+                        class="hover:text-blue-400 cursor-pointer">
+                            {{user.html_url}}
+                        </a>
+                    </div>
+                    <div class="mt-5 w-1/4 md:w-auto">
+                        <label for="results_per_page" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            Repositories per pages
+                        </label>
+                        <select 
+                        id="results_per_page" 
+                        (change)="selectPageLimit($event)"
+                        [value]="limit"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-center text-sm w-auto md:float-right rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+
+                    </div>
+                </div>
+        </div>
+    </section>
+
+    <section *ngIf="repos.length" class="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-8 mt-5">
+        <app-repo-card
+        *ngFor="let repo of repos"
+        [repo]="repo"
+        [username]="username"
+        ></app-repo-card>
+    </section>
+
+    <section *ngIf="repos.length" class="flex flex-col md:flex-row justify-center items-center gap-5 mt-12">
+        <app-pagination
+        [repoCount]="repoCount"
+        (getRepos)="getRepos()"
+        ></app-pagination>
+    </section>
+    <!-- main data section END -->
+
+     <!-- Empty Component START -->
+    <div *ngIf="repos.length==0" class="grid place-items-center min-h-[80vh] p-2">
+        <div class="mb-40">
+            <h4 class="text-gray-400 text-xl mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16" viewBox="0 0 24 24" fill="currentcolor">
+                    <path d="M2.165 19.551c.186.28.499.449.835.449h15c.4 0 .762-.238.919-.606l3-7A.998.998 0 0 0 21 11h-1V8c0-1.103-.897-2-2-2h-6.655L8.789 4H4c-1.103 0-2 .897-2 2v13h.007a1 1 0 0 0 .158.551zM18 8v3H6c-.4 0-.762.238-.919.606L4 14.129V8h14z">
+                    </path>
+                </svg>
+                No Repositories...
+            </h4>
+        </div>
+    </div>
+    <!-- Empty Component END -->
+
+    <!-- main section END -->
+
+</div>
